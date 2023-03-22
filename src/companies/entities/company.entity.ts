@@ -1,5 +1,12 @@
 import { Location } from 'src/locations/entities/location.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/users.entity';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('companies')
 export class Company {
@@ -14,6 +21,9 @@ export class Company {
 
   @Column({ name: 'cnpj' })
   cnpj: string;
+
+  @ManyToOne((type) => User, (user) => user.companies)
+  user: User;
 
   @OneToMany((type) => Location, (location) => location.company)
   location: Location[];
