@@ -1,5 +1,5 @@
-import { Location } from 'src/locations/entities/location.entity';
-import { User } from 'src/users/entities/users.entity';
+import { Location } from 'src/modules/locations/entities/location.entity';
+import { User } from 'src/modules/users/entities/users.entity';
 import {
   Column,
   Entity,

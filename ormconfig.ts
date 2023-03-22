@@ -1,8 +1,10 @@
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import * as path from 'path';
+import { join } from 'path';
 
 interface TypeOrmConfigCli {
   migrationsDir: string;
+  entitiesDir?: string;
 }
 
 type Connection = Omit<PostgresConnectionOptions, 'ssl'> & {
@@ -18,10 +20,10 @@ export const connection: Connection = {
   username: 'postgres',
   password: 'docker',
   database: 'postgres',
-  entities: ['dist/**/*.entity.js'],
-  migrations: ['./src/migrations/*.ts'],
+  entities: [path.resolve(__dirname, '..', '**', '..', '*.entity{.ts,.js}')],
+  migrations: [path.resolve(__dirname, 'migrations', '*')],
   logging: ['query', 'error'],
   cli: {
-    migrationsDir: 'src/migrations',
+    migrationsDir: path.resolve(__dirname, 'migrations'),
   },
 };
