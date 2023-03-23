@@ -1,4 +1,4 @@
-import { Company } from 'src/modules/companies/entities/company.entity';
+import { Company } from '../../companies/entities/company.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('locations')
@@ -27,6 +27,6 @@ export class Location {
   @Column({ name: 'state' })
   state: string;
 
-  @ManyToOne((type) => Company, (company) => company.location)
-  company: Company;
+  // @ManyToOne((type) => Company, (company) => company.location)
+  // company: Company;
 }

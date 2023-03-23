@@ -1,5 +1,5 @@
-import { Location } from 'src/modules/locations/entities/location.entity';
-import { User } from 'src/modules/users/entities/users.entity';
+import { Location } from '../../locations/entities/location.entity';
+import { User } from '../../users/entities/users.entity';
 import {
   Column,
   Entity,
@@ -22,9 +22,9 @@ export class Company {
   @Column({ name: 'cnpj' })
   cnpj: string;
 
-  @ManyToOne((type) => User, (user) => user.companies)
-  user: User;
+  // @ManyToOne((type) => User, (user) => user.companies)
+  // user: User;
 
-  @OneToMany((type) => Location, (location) => location.company)
-  location: Location[];
+  // @OneToMany((type) => Location, (location) => location.company)
+  // location: Location[];
 }

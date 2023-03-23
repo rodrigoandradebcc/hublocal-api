@@ -1,4 +1,4 @@
-import { Company } from 'src/modules/companies/entities/company.entity';
+import { Company } from '../../companies/entities/company.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
@@ -15,6 +15,6 @@ export class User {
   @Column({ name: 'password' })
   password: string;
 
-  @OneToMany((type) => Company, (company) => company.user)
-  companies: Company[];
+  // @OneToMany((type) => Company, (company) => company.user)
+  // companies: Company[];
 }
