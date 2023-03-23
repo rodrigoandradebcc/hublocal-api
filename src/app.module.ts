@@ -1,24 +1,24 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { connection } from 'ormconfig';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { connection } from 'ormconfig';
+
 import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './modules/users/users.module';
-import { LocationsModule } from './modules/locations/locations.module';
 import { CompaniesModule } from './modules/companies/companies.module';
-import { UsersController } from './modules/users/users.controller';
 import { LocationsController } from './modules/locations/locations.controller';
+import { LocationsModule } from './modules/locations/locations.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
-    CompaniesModule,
     TypeOrmModule.forRoot(connection),
+    CompaniesModule,
+    AuthModule,
     LocationsModule,
     UsersModule,
-    AuthModule,
   ],
-  controllers: [AppController, UsersController, LocationsController],
+  controllers: [AppController, LocationsController],
   providers: [AppService],
 })
 export class AppModule {}

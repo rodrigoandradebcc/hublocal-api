@@ -20,7 +20,16 @@ export const connection: Connection = {
   username: 'postgres',
   password: 'docker',
   database: 'postgres',
-  entities: [path.resolve(__dirname, '..', '**', '..', '*.entity{.ts,.js}')],
+  entities: [
+    path.resolve(
+      __dirname,
+      'src',
+      'modules',
+      '**',
+      'entities',
+      '*.entity.{ts,js}',
+    ),
+  ],
   migrations: [path.resolve(__dirname, 'migrations', '*')],
   logging: ['query', 'error'],
   cli: {

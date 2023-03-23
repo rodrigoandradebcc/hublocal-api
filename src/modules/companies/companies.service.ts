@@ -1,16 +1,9 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { CreateCompanyDto } from './dto/create-company.dto';
-import { Company } from './entities/company.entity';
-import { uuid } from 'uuidv4';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { NotFoundError } from 'rxjs';
+import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
+import { Company } from './entities/company.entity';
 
 @Injectable()
 export class CompaniesService {
