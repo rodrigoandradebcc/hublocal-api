@@ -27,6 +27,6 @@ export class Location {
   @Column({ name: 'state' })
   state: string;
 
-  // @ManyToOne((type) => Company, (company) => company.location)
-  // company: Company;
+  @ManyToOne((type) => Company, (company) => company.location)
+  company: Company;
 }
