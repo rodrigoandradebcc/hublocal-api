@@ -39,7 +39,7 @@ export class CompaniesController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string, @Body() body: any) {
+  async remove(@Param('id') id: string) {
     return this.companiesService.remove(id);
   }
 }

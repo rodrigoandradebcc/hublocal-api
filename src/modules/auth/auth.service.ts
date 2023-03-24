@@ -1,9 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/users.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { SignInDto } from './dto/signin.dto';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -13,28 +19,46 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(userName: string, password: string) {
-    const user = await this.validateCredentials(userName, password);
+  // async validateUser(email: string, password: string): Promise<any> {
 
-    const payload = {
-      sub: user.id,
-      username: user.name,
-    };
+  //   console.log('comparePassword', { comparePassword });
 
-    return this.jwtService.sign(payload);
-  }
+  //   if (userExist && comparePassword) {
+  //     const { password, ...result } = userExist;
+  //     return result;
+  //   }
+  //   return null;
+  // }
 
-  async validateCredentials(email: string, password: string) {
+  async login(user: SignInDto) {
     const userExist = await this.userRepository.findOne({
       where: {
-        email,
+        email: user.email,
       },
     });
 
-    const validatePassword = bcrypt.compareSync(password, userExist.password);
-
-    if (userExist && validatePassword) {
-      return userExist;
+    if (!userExist) {
+      throw new BadRequestException('Credenciais inválidas');
     }
+
+    const comparePassword = await bcrypt.compare(
+      user.password,
+      userExist.password,
+    );
+
+    if (!comparePassword) {
+      throw new BadRequestException('Credenciais inválidas');
+    }
+
+    const payload = { email: user.email, name: userExist.name };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
+
+  async generateHash(user: User): Promise<string> {
+    // const payload = { email: user.email, sub: user.id };
+    return bcrypt.hash(user.password, 10);
   }
 }

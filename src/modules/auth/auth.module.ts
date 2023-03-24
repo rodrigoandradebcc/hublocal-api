@@ -12,11 +12,12 @@ import { JwtStrategyService } from './jwt-strategy/jwt-strategy.service';
     JwtModule.register({
       secret: 'hublocal123456',
       signOptions: {
-        expiresIn: '60s',
+        expiresIn: '1h',
       },
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategyService],
+  exports: [AuthService],
 })
 export class AuthModule {}

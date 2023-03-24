@@ -15,6 +15,6 @@ export class User {
   @Column({ name: 'password' })
   password: string;
 
-  // @OneToMany((type) => Company, (company) => company.user)
-  // companies: Company[];
+  @OneToMany((type) => Company, (company) => company.user)
+  companies: Company[];
 }

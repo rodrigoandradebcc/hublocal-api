@@ -30,10 +30,12 @@ export const connectionDev: Connection = {
       '*.entity.{ts,js}',
     ),
   ],
-  migrations: [path.resolve(__dirname, 'migrations', '*')],
+  migrations: [
+    path.resolve(__dirname, 'src', 'database', 'migrations', '*.ts'),
+  ],
   logging: ['query', 'error'],
   cli: {
-    migrationsDir: path.resolve(__dirname, 'migrations'),
+    migrationsDir: path.resolve(__dirname, 'src', 'database', 'migrations'),
   },
 };
 
