@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 
 import { AuthModule } from './modules/auth/auth.module';
 import { CompaniesModule } from './modules/companies/companies.module';
-import { LocationsController } from './modules/locations/locations.controller';
 import { LocationsModule } from './modules/locations/locations.module';
 import { UsersModule } from './modules/users/users.module';
 
@@ -18,7 +17,7 @@ import { UsersModule } from './modules/users/users.module';
     LocationsModule,
     UsersModule,
   ],
-  controllers: [AppController, LocationsController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
