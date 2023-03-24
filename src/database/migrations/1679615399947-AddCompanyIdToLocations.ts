@@ -12,7 +12,7 @@ export class AddCompanyIdToLocations1679615399947
     await queryRunner.addColumn(
       'locations',
       new TableColumn({
-        name: 'user_id',
+        name: 'company_id',
         type: 'uuid',
         isNullable: true,
       }),
