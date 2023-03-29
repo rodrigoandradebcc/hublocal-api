@@ -22,11 +22,9 @@ export class Company {
   @Column({ name: 'cnpj' })
   cnpj: string;
 
-  @ManyToOne((type) => User, (user) => user.companies)
+  @ManyToOne(() => User, (user) => user.companies)
   user: User;
 
-  @OneToMany((type) => Location, (location) => location.company, {
-    eager: true,
-  })
+  @OneToMany(() => Location, (location) => location.company)
   locations: Location[];
 }

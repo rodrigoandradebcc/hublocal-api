@@ -87,9 +87,11 @@ export class CompaniesService {
       name: createCompanyDto.name,
     });
 
-    delete company.user;
+    const createdCompany = await this.companyRepository.save(company);
 
-    return this.companyRepository.save(company);
+    delete createdCompany.user;
+
+    return createdCompany;
   }
 
   async update(id: string, updateCompanyDto: UpdateCompanyDto) {
