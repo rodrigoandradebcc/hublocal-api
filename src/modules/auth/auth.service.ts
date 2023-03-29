@@ -51,9 +51,11 @@ export class AuthService {
     }
 
     const payload = { email: user.email, name: userExist.name };
+    delete userExist.password;
 
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
+      user: userExist,
     };
   }
 

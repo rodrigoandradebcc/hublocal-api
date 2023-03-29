@@ -6,11 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtGuard } from '../auth/jwt.guard';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 
+@UseGuards(JwtGuard)
 @Controller('companies')
 export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
@@ -23,6 +26,11 @@ export class CompaniesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.companiesService.findOne(id);
+  }
+
+  @Get('user/:id')
+  findAllByUserId(@Param('id') id: string) {
+    return this.companiesService.findAllByUserId(id);
   }
 
   @Post()

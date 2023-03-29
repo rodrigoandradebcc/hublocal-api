@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { User } from '../users/entities/users.entity';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Company } from './entities/company.entity';
@@ -10,11 +11,49 @@ export class CompaniesService {
   constructor(
     @InjectRepository(Company)
     private readonly companyRepository: Repository<Company>,
+
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
   ) {}
 
   findAll() {
     return this.companyRepository.find();
   }
+
+  findAllByUserId(id: string) {
+    const companies = this.usersRepository
+      .createQueryBuilder('users')
+      .leftJoin('users.companies', 'companies')
+      .leftJoin('companies.locations', 'locations')
+      .where('users.id = :id', { id })
+      .select('companies.id', 'id')
+      .addSelect('companies.name', 'name')
+      .addSelect('COUNT(locations.id)', 'numberOfLocations')
+      .groupBy('companies.id')
+      .getRawMany();
+
+    if (!companies) {
+      throw new NotFoundException(`User ID ${id} not found`);
+    }
+
+    return companies;
+  }
+
+  // findAllByUserId(id: string) {
+  //   const company = this.companyRepository.find({
+  //     where: {
+  //       user: {
+  //         id,
+  //       },
+  //     },
+  //   });
+
+  //   if (!company) {
+  //     throw new NotFoundException(`User ID ${id} not found`);
+  //   }
+
+  //   return company;
+  // }
 
   findOne(id: string) {
     const company = this.companyRepository.findOne({
@@ -30,8 +69,25 @@ export class CompaniesService {
     return company;
   }
 
-  create(createCompanyDto: CreateCompanyDto) {
-    const company = this.companyRepository.create(createCompanyDto);
+  async create(createCompanyDto: CreateCompanyDto) {
+    const userExist = await this.usersRepository.findOne({
+      where: {
+        id: createCompanyDto.userId,
+      },
+    });
+
+    if (!userExist) {
+      throw new NotFoundException(`User not exist`);
+    }
+
+    const company = this.companyRepository.create({
+      user: userExist,
+      cnpj: createCompanyDto.cnpj,
+      website: createCompanyDto.website,
+      name: createCompanyDto.name,
+    });
+
+    delete company.user;
 
     return this.companyRepository.save(company);
   }

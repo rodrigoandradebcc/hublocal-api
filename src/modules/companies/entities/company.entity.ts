@@ -25,6 +25,8 @@ export class Company {
   @ManyToOne((type) => User, (user) => user.companies)
   user: User;
 
-  @OneToMany((type) => Location, (location) => location.company)
-  location: Location[];
+  @OneToMany((type) => Location, (location) => location.company, {
+    eager: true,
+  })
+  locations: Location[];
 }

@@ -9,4 +9,7 @@ export class CreateCompanyDto {
 
   @IsString()
   readonly cnpj: string;
+
+  @IsString()
+  readonly userId: string;
 }
