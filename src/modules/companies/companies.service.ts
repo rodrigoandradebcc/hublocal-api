@@ -20,11 +20,11 @@ export class CompaniesService {
     return this.companyRepository.find();
   }
 
-  findAllByUserId(id: string) {
-    const companies = this.usersRepository
+  async findAllByUserId(id: string) {
+    const companies = await this.usersRepository
       .createQueryBuilder('users')
-      .leftJoin('users.companies', 'companies')
-      .leftJoin('companies.locations', 'locations')
+      .leftJoinAndSelect('users.companies', 'companies')
+      .leftJoinAndSelect('companies.locations', 'locations')
       .where('users.id = :id', { id })
       .select('companies.id', 'id')
       .addSelect('companies.name', 'name')
@@ -34,6 +34,10 @@ export class CompaniesService {
 
     if (!companies) {
       throw new NotFoundException(`User ID ${id} not found`);
+    }
+
+    if (companies.length === 1 && companies[0].id === null) {
+      return [];
     }
 
     return companies;

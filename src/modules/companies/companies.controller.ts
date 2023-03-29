@@ -29,8 +29,8 @@ export class CompaniesController {
   }
 
   @Get('user/:id')
-  findAllByUserId(@Param('id') id: string) {
-    return this.companiesService.findAllByUserId(id);
+  async findAllByUserId(@Param('id') id: string) {
+    return await this.companiesService.findAllByUserId(id);
   }
 
   @Post()
