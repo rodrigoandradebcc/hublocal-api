@@ -27,9 +27,9 @@ export class UsersService {
     const userCreated = await this.userRepository.save(newUser);
 
     return {
+      id: userCreated.id,
       name: userCreated.name,
       email: userCreated.email,
-      password: userCreated.password,
     };
   }
 }
