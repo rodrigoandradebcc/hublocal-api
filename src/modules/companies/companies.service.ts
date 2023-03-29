@@ -39,22 +39,6 @@ export class CompaniesService {
     return companies;
   }
 
-  // findAllByUserId(id: string) {
-  //   const company = this.companyRepository.find({
-  //     where: {
-  //       user: {
-  //         id,
-  //       },
-  //     },
-  //   });
-
-  //   if (!company) {
-  //     throw new NotFoundException(`User ID ${id} not found`);
-  //   }
-
-  //   return company;
-  // }
-
   findOne(id: string) {
     const company = this.companyRepository.findOne({
       where: {
